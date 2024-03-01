@@ -1,6 +1,6 @@
 class Token
-  attr_accessor :kind,:value,:pos
-  def initialize kind,value,pos=[]
-    @kind,@value,@pos=kind,value,pos
+  attr_accessor :kind,:val,:pos
+  def initialize kind,val,pos=[]
+    @kind,@val,@pos=kind,val,pos
   end
 end

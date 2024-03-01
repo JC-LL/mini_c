@@ -1,0 +1,8 @@
+require_relative "./minic/runner"
+require_relative "./minic/version"
+require_relative "./minic/lexer"
+require_relative "./minic/parser"
+require_relative "./minic/compiler"
+require_relative "./minic/ast"
+require_relative "./minic/code"
+require_relative "./minic/dot_gen"

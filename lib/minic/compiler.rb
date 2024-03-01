@@ -1,10 +1,15 @@
-require_relative "parser"
-
 module MiniC
   class Compiler
+    attr_accessor :options
+    def initialize options={}
+      @options=options
+    end
+
     def compile filename
       parser=Parser.new
-      parser.parse filename
+      ast=parser.parse(filename)
+      pp ast
+      DotGen.new.gen(ast)
     end
   end
 end
