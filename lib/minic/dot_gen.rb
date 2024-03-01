@@ -1,5 +1,3 @@
-require_relative "code"
-
 module MiniC
   class DotGen
     def gen ast
@@ -20,8 +18,7 @@ module MiniC
       @code.save_as "output.dot"
     end
 
-    def rec_walk node,depth=0
-      puts " "*depth+"walk #{node}"
+    def rec_walk node
       id=node.object_id
       na=node.class.to_s.split("::").last #node name
       @code << "#{id}[label=\"#{na}\"]"
@@ -31,11 +28,11 @@ module MiniC
         when Array
           subnode.each_with_index do |elem,idx|
             process_edge(node,elem,idx)
-            rec_walk(elem,depth+1) unless elem.is_a? Token
+            rec_walk(elem) unless elem.is_a? Token
           end
         else
           process_edge(node,subnode)
-          rec_walk(subnode,depth+1) unless subnode.is_a? Token
+          rec_walk(subnode) unless subnode.is_a? Token
         end
       end
     end
