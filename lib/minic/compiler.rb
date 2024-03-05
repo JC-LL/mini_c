@@ -17,8 +17,9 @@ module MiniC
 
     def parse filename
       info 0,"parsing file '#{filename}'"
-      Parser.new.parse filename
+      ast=Parser.new.parse filename
       info 1,"file parsed successfully ! AST in memory !"
+      return ast
     end
 
     def gen_dot ast

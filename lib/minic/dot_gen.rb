@@ -19,30 +19,30 @@ module MiniC
       output_filename
     end
 
-    def rec_walk node
-      id=node.object_id
-      na=node.class.to_s.split("::").last #node name
+    def rec_walk source
+      id=source.object_id
+      na=source.class.to_s.split("::").last #node name
       @code << "#{id}[label=\"#{na}\"]"
-      node.instance_variables.each do |ivar|
-        subnode=node.instance_variable_get(ivar)
-        case subnode
+      source.instance_variables.each do |ivar|
+        sink=source.instance_variable_get(ivar)
+        case ary=sink
         when Array
-          subnode.each_with_index do |elem,idx|
-            process_edge(node,elem,idx)
-            rec_walk(elem) unless elem.is_a? Token
+          ary.each_with_index do |sink,idx|
+            process_edge(source,ivar,sink,idx)
+            rec_walk(sink) unless sink.is_a? Token
           end
         else
-          process_edge(node,subnode)
-          rec_walk(subnode) unless subnode.is_a? Token
+          process_edge(source,ivar,sink)
+          rec_walk(sink) unless sink.is_a? Token
         end
       end
     end
 
-    def process_edge source,sink,idx=nil
+    def process_edge source,ivar,sink,idx=nil
       sink_id=sink.object_id
       sink_na=sink.class.to_s.split("::").last # sink name
       sink_na=sink.val if sink.is_a? Token
-      edge_na=sink_na.downcase unless sink.is_a? Token
+      edge_na=ivar.to_s[1..-1] unless sink.is_a? Token
       edge_na+="[#{idx}]" if idx
       color=",color=red" if sink.is_a? Token
       @code << "#{sink_id}[label=\"#{sink_na}\"#{color}]"

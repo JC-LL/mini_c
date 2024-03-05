@@ -12,5 +12,12 @@ MiniC for compiler course. Example in Ruby !
 # Running !
 ![grammar](/doc/anim.svg "run the compiler !")
 
-# Example output
-![grammar](/doc/output.png "example AST")
+# Example input (test_2.c)
+<p align="left">
+  <img src="/doc/test_2.png" />
+</p>
+
+# Example AST (test_2.c)
+<p align="left">
+  <img src="/doc/test_2_AST.png" />
+</p>
