@@ -15,7 +15,8 @@ module MiniC
       rec_walk(ast)
       @code.indent=0
       @code << "}"
-      @code.save_as "output.dot"
+      @code.save_as output_filename="output.dot"
+      output_filename
     end
 
     def rec_walk node

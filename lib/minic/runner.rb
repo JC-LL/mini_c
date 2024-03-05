@@ -1,11 +1,7 @@
 require "optparse"
 
-require_relative "compiler"
-
 module MiniC
-
   class Runner
-
     def self.run *arguments
       new.run(arguments)
     end

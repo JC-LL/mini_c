@@ -1,11 +1,11 @@
 module MiniC
   class Parser
+    include InfoDisplay
     def parse filename
       @tokens=Lexer.new.lex(filename)
-      @indent=0
+      @indent=1
       ast=parse_program
-      puts "program parsed successfully !"
-      ast
+      return ast
     end
 
     def accept_it
@@ -26,19 +26,15 @@ module MiniC
     end
 
     def indent
-      @indent+=2
+      @indent+=1
     end
 
     def dedent
-      @indent-=2
-    end
-
-    def info str
-      puts " "*@indent+str
+      @indent-=1
     end
 
     def parse_program
-      info "parse_program"
+      info @indent,"parse_program"
       indent
       expect :int
       expect :main
@@ -58,7 +54,7 @@ module MiniC
     end
 
     def parse_declaration
-      info "parse_declaration"
+      info @indent,"parse_declaration"
       indent
       type=parse_type
       ident=Identifier.new(expect(:identifier))
@@ -84,7 +80,7 @@ module MiniC
     end
 
     def parse_statement
-      info "parse_statement"
+      info @indent,"parse_statement"
       indent
       case show_next.kind
       when :if
@@ -99,7 +95,7 @@ module MiniC
     end
 
     def parse_assignment
-      info "parse_assignment"
+      info @indent,"parse_assignment"
       indent
       lhs=Identifier.new(expect :identifier)
       if show_next.kind==:lbracket
@@ -116,7 +112,7 @@ module MiniC
     end
 
     def parse_while
-      info "parse_while"
+      info @indent,"parse_while"
       indent
       expect :while
       cond=parse_expression
@@ -131,7 +127,7 @@ module MiniC
     end
 
     def parse_if
-      info "parse_if"
+      info @indent,"parse_if"
       indent
       expect :if
       cond=parse_expression()
@@ -149,7 +145,7 @@ module MiniC
     end
 
     def parse_else
-      info "parse_else"
+      info @indent,"parse_else"
       indent
       body=Body.new
       expect :else
@@ -253,8 +249,7 @@ module MiniC
         e=parse_parenth
         prim=Parenth.new(e)
       else
-        pp show_next
-        raise "syntax error ! #{@tokens[0..10].map{|tok| tok.val}.join(" ")}"
+        raise "Syntax error near : #{@tokens[0..10].map{|tok| tok.val}.join(" ")}"
       end
       return prim
     end

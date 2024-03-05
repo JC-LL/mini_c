@@ -1,13 +1,8 @@
-require_relative "token"
-
 module MiniC
   class Lexer
-    def pos
-      [@line,@col]
-    end
-
+    # naive lexer
     def lex filename
-      puts src=IO.read(filename)
+      src=IO.read(filename)
       @line,@col=1,1
       tokens=[]
       while src.size!=0
@@ -69,7 +64,11 @@ module MiniC
         end
         src.delete_prefix!($&)
       end
-      pp tokens
+      tokens
+    end
+
+    def pos
+      [@line,@col]
     end
   end
 end

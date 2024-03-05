@@ -24,8 +24,7 @@ module MiniC
     end
 
     def save_as filename
-      puts txt=finalize
-      File.open(filename,'w'){|f| f.puts txt}
+      File.open(filename,'w'){|f| f.puts finalize}
     end
   end
 end

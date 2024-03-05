@@ -1,5 +1,7 @@
 require_relative "./minic/runner"
 require_relative "./minic/version"
+require_relative "./minic/info_display"
+require_relative "./minic/token"
 require_relative "./minic/lexer"
 require_relative "./minic/parser"
 require_relative "./minic/compiler"
