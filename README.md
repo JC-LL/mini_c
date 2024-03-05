@@ -1,7 +1,16 @@
 # mini_c
-MiniC for compiler course
+MiniC for compiler course. Example in Ruby !
 
+# Grammar
+<p align="center">
+  <img src="/doc/grammar.png" />
+</p>
 
-![grammar](/doc/grammar.png "grammar for mini C")
+# Compiler structure
+![grammar](/doc/compiler_structure.png "develop the compiler")
 
+# Running !
+![grammar](/doc/anim.svg "run the compiler !")
+
+# Example output
 ![grammar](/doc/output.png "example AST")

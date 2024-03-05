@@ -12,7 +12,6 @@ module MiniC
         gen_dot(ast)
       rescue Exception => e
         puts e
-        puts e.backtrace
       end
     end
 
@@ -28,9 +27,4 @@ module MiniC
       info 1,"generated file '#{filename}'"
     end
   end
-end
-
-if $PROGRAM_NAME==__FILE__
-  compiler=MiniC::Compiler.new
-  compiler.compile ARGV.first
 end
