@@ -10,8 +10,10 @@ module MiniC
       begin
         ast=parse(filename)
         gen_dot(ast)
+        dummy_visit(ast)
       rescue Exception => e
         puts e
+        puts e.backtrace
       end
     end
 
@@ -26,6 +28,11 @@ module MiniC
       info 0,"generating dot"
       filename=DotGen.new.gen(ast)
       info 1,"generated file '#{filename}'"
+    end
+
+    def dummy_visit ast
+      info 0,"dummy visit"
+      Visitor.new.visit(ast)
     end
   end
 end

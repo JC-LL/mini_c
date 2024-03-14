@@ -1,72 +1,108 @@
 module MiniC
-  class Program
+  class AstNode
+    def accept visitor,args=nil
+      name=self.class.name.split("::").last
+      visitor.send("visit#{name}".to_sym,self,args)
+    end
+  end
+
+  class Program < AstNode
     attr_accessor :decls,:body
     def initialize decls=[],body=nil
       @decls,@body=decls,body
     end
   end
 
-  class Decl
+  class Decl < AstNode
     attr_accessor :var,:type
     def initialize var,type
       @var,@type=var,type
     end
   end
 
-  class Assign
+  class Assign < AstNode
     attr_accessor :lhs,:rhs
     def initialize lhs,rhs
       @lhs,@rhs=lhs,rhs
     end
   end
 
-  class If
+  class If < AstNode
     attr_accessor :cond,:body,:else
     def initialize cond,body,else_=nil
       @cond,@body,@else=cond,body,else_
     end
   end
 
-  class While
+  class While < AstNode
     attr_accessor :cond,:body
     def initialize cond,body
       @cond,@body=cond,body
     end
   end
 
-  class Body
+  class Body < AstNode
     attr_accessor :stmts
     def initialize stmts=[]
       @stmts=stmts
     end
   end
 
-  class Else
+  class Else < AstNode
     attr_accessor :body
     def initialize body
       @body=body
     end
   end
 
-  class Type
+  class Type < AstNode
   end
 
-  class ScalarType
+  class ScalarType < Type
     def initialize kind
       @kind=kind
     end
   end
 
-  class ArrayType
+  class ArrayType < Type
+    attr_accessor :type,:size
     def initialize type,size
       @type,@size=type,size
     end
   end
 
   # expressions
-  class SingleTokenNode
+  class SingleTokenNode < AstNode
     def initialize token
       @token=token
+    end
+  end
+
+  class Binary < AstNode
+    attr_accessor :lhs,:op,:rhs
+    def initialize lhs,op,rhs
+      @lhs,@op,@rhs=lhs,op,rhs
+    end
+  end
+
+  class Unary  < AstNode
+    attr_accessor :op,:expr
+    def initialize op,expr
+      @op,@expr=op,expr
+    end
+  end
+
+  class ArrayAccess  < AstNode
+    attr_accessor :var,:index
+    def initialize var,index
+      @var,@index=var,index
+    end
+  end
+
+  class Parenth  < AstNode
+    attr_accessor :expr
+    def initialize e
+      @expr=e
     end
   end
 
@@ -82,31 +118,4 @@ module MiniC
   class BoolLiteral < SingleTokenNode
   end
 
-  class Binary
-    attr_accessor :lhs,:op,:rhs
-    def initialize lhs,op,rhs
-      @lhs,@op,@rhs=lhs,op,rhs
-    end
-  end
-
-  class Unary
-    attr_accessor :op,:expr
-    def initialize op,expr
-      @op,@expr=op,expr
-    end
-  end
-
-  class ArrayAccess
-    attr_accessor :var,:index
-    def initialize var,index
-      @var,@index=var,index
-    end
-  end
-
-  class Parenth
-    attr_accessor :expr
-    def initialize e
-      @expr=e
-    end
-  end
 end

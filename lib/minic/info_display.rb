@@ -23,5 +23,14 @@ module MiniC
       puts "hit_a_key"
       $stdin.gets
     end
+
+    def indent
+      @indent||=0
+      @indent+=1
+    end
+
+    def dedent
+      @indent-=1
+    end
   end
 end

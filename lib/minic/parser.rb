@@ -5,7 +5,6 @@ module MiniC
       @tokens=Lexer.new.lex(filename)
       @indent=1
       ast=parse_program
-      return ast
     end
 
     def accept_it
@@ -132,9 +131,9 @@ module MiniC
       expect :if
       cond=parse_expression()
       expect :lbrace
-      body=[]
+      body=Body.new
       while show_next.kind!=:rbrace
-        body << parse_statement()
+        body.stmts << parse_statement()
       end
       expect :rbrace
       if show_next.kind==:else
@@ -159,66 +158,86 @@ module MiniC
     end
 
     def parse_expression
+      #info @indent,"parse_expression"
+      indent
       e1=parse_conjunction
       while show_next.kind==:or_bar
         op=accept_it
         e2=parse_conjunction
         e1=Binary.new(e1,op,e2)
       end
+      dedent
       e1
     end
 
     def parse_conjunction
+      #info @indent,"parse_conjunction"
+      indent
       e1=parse_equality
       while show_next.kind==:and_bar
         op=accept_it
         e2=parse_equality
         e1=Binary.new(e1,op,e2)
       end
+      dedent
       e1
     end
 
     def parse_equality
+      #info @indent,"parse_equality"
+      indent
       e1=parse_relation
       if [:double_eq,:neq].include?(show_next.kind)
         op=accept_it
         e2=parse_relation
         e1=Binary.new(e1,op,e2)
       end
+      dedent
       e1
     end
 
     def parse_relation
+      #info @indent,"parse_relation"
+      indent
       e1=parse_addition
       if [:lt,:lte,:gt,:gte].include?(show_next.kind)
         op=accept_it
         e2=parse_addition
         e1=Binary.new(e1,op,e2)
       end
+      dedent
       e1
     end
 
     def parse_addition
+      #info @indent,"parse_addition"
+      indent
       e1=parse_term
       while [:add,:sub].include?  show_next.kind
         op=accept_it
         e2=parse_term
         e1=Binary.new(e1,op,e2)
       end
+      dedent
       e1
     end
 
     def parse_term
+      #info @indent,"parse_term"
+      indent
       e1=parse_factor
       while [:mul,:div,:mod].include?  show_next.kind
         op=accept_it
         e2=parse_factor
         e1=Binary.new(e1,op,e2)
       end
+      dedent
       e1
     end
 
     def parse_factor
+      #info @indent,"parse_factor"
+      indent
       if [:minus,:excl].include?(show_next.kind)
         op=accept_it
         e=parse_primary
@@ -226,10 +245,13 @@ module MiniC
       else
         e=parse_primary
       end
+      dedent
       e
     end
 
     def parse_primary
+      #info @indent,"parse_primary"
+      indent
       case show_next.kind
       when :identifier
         prim=Identifier.new(accept_it)
@@ -251,13 +273,17 @@ module MiniC
       else
         raise "Syntax error near : #{@tokens[0..10].map{|tok| tok.val}.join(" ")}"
       end
+      dedent
       return prim
     end
 
     def parse_parenth
+      #info @indent,"parse_parenth"
+      indent
       expect :lparen
       e=parse_expression
       expect :rparen
+      dedent
       e
     end
   end
