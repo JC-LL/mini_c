@@ -7,7 +7,7 @@ module MiniC
     end
 
     def visitProgram(program,args=nil)
-      super
+      super # call visitProgram from inherited Visitor. Just display visit messages. 
       code=Code.new
       code << "int main(){"
       code.indent=2
