@@ -1,13 +1,16 @@
 module MiniC
-  class PrettyPrinter < Visitor
-    include InfoDisplay
 
+  class PrettyPrinter < Visitor
     def print ast
       ast.accept(self)
     end
 
+    # 'super' calls visitProgram from inherited Visitor.
+    # This is just to display visit messages.
+    # This can be suppressed of course.
+
     def visitProgram(program,args=nil)
-      super # call visitProgram from inherited Visitor. Just display visit messages. 
+      super
       code=Code.new
       code << "int main(){"
       code.indent=2

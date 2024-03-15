@@ -18,9 +18,9 @@ int main(){
       b=b+1;
     }
     while(ok){
-      while(ok){
+while(ok){
         while(ok){
-          b=b+1;
+          b=               b+1;
         }
       }
     }
