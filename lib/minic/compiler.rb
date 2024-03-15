@@ -8,9 +8,10 @@ module MiniC
 
     def compile filename
       begin
-        ast=parse(filename)
-        gen_dot(ast)
-        dummy_visit(ast)
+        ast=parse filename
+        gen_dot ast
+        dummy_visit ast
+        pretty_print ast
       rescue Exception => e
         puts e
         puts e.backtrace
@@ -33,6 +34,12 @@ module MiniC
     def dummy_visit ast
       info 0,"dummy visit"
       Visitor.new.visit(ast)
+    end
+
+    def pretty_print ast
+      info 0,"pretty print"
+      code=PrettyPrinter.new.print(ast)
+      puts code.finalize
     end
   end
 end

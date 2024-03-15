@@ -59,8 +59,9 @@ module MiniC
   end
 
   class ScalarType < Type
-    def initialize kind
-      @kind=kind
+    attr_accessor :tok
+    def initialize tok
+      @tok=tok
     end
   end
 
@@ -73,6 +74,7 @@ module MiniC
 
   # expressions
   class SingleTokenNode < AstNode
+    attr_accessor :token
     def initialize token
       @token=token
     end
