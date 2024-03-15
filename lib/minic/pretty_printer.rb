@@ -5,7 +5,7 @@ module MiniC
       ast.accept(self)
     end
 
-    # 'super' calls visitProgram from inherited Visitor.
+    # 'super' calls visitX from inherited Visitor (X=Program, etc)
     # This is just to display visit messages.
     # This can be suppressed of course.
 
