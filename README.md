@@ -9,7 +9,7 @@ MiniC for compiler course. Example in Ruby !
 # Compiler structure
 ![grammar](/doc/compiler_structure.png "develop the compiler")
 
-# Running !
+# Running compiler (early passes) !
 ![grammar](/doc/anim.svg "run the compiler !")
 
 # Example input (test_2.c)
