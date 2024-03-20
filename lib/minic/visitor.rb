@@ -1,4 +1,5 @@
 module MiniC
+  
   class Visitor
     include InfoDisplay
 

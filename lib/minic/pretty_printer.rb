@@ -5,12 +5,7 @@ module MiniC
       ast.accept(self)
     end
 
-    # 'super' calls visitX from inherited Visitor (X=Program, etc)
-    # This is just to display visit messages.
-    # This can be suppressed of course.
-
     def visitProgram(program,args=nil)
-      super
       code=Code.new
       code << "int main(){"
       code.indent=2
@@ -22,21 +17,18 @@ module MiniC
     end
 
     def visitDecl decl,args=nil
-      super
       var=decl.var.accept(self,args)
       type=decl.type.accept(self,args)
       "#{type} #{var};"
     end
 
     def visitAssign assign,args=nil
-      super
       lhs=assign.lhs.accept(self,args)
       rhs=assign.rhs.accept(self,args)
       "#{lhs} = #{rhs};"
     end
 
     def visitIf if_,args=nil
-      super
       cond=if_.cond.accept(self,args)
       body=if_.body.accept(self,args)
       else_=if_.else.accept(self,args) if if_.else
@@ -50,7 +42,6 @@ module MiniC
     end
 
     def visitWhile while_,args=nil
-      super
       cond=while_.cond.accept(self,args)
       body=while_.body.accept(self,args)
       code=Code.new
@@ -63,14 +54,12 @@ module MiniC
     end
 
     def visitBody body,args=nil
-      super
       code=Code.new
       body.stmts.each{|stmt| code << stmt.accept(self,args)}
       code
     end
 
     def visitElse else_,args=nil
-      super
       body=else_.body.accept(self,args)
       code=Code.new
       code << "else {"
@@ -82,15 +71,12 @@ module MiniC
     end
 
     def visitScalarType scalar_type,args=nil
-      super
       scalar_type.tok.val
     end
 
     def visitArrayType array_type,args=nil
-      super
       type=array_type.type.accept(self,args)
       size=array_type.size.accept(self,args)
-      super
       "#{type}[#{size}]"
     end
 
